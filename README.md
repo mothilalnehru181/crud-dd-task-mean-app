@@ -1,27 +1,169 @@
-In this DevOps task, you need to build and deploy a full-stack CRUD application using the MEAN stack (MongoDB, Express, Angular 15, and Node.js). The backend will be developed with Node.js and Express to provide REST APIs, connecting to a MongoDB database. The frontend will be an Angular application utilizing HTTPClient for communication.  
+# MEAN Stack Application with Docker & Nginx
 
-The application will manage a collection of tutorials, where each tutorial includes an ID, title, description, and published status. Users will be able to create, retrieve, update, and delete tutorials. Additionally, a search box will allow users to find tutorials by title.
+A full-stack CRUD application built with **MongoDB, Express, Angular, and Node.js**, containerized using Docker and served via Nginx as a reverse proxy. Includes a full CI/CD pipeline using GitHub Actions.
 
-## Project setup
+---
 
-### Node.js Server
+## Tech Stack
 
-cd backend
+- **Frontend**: Angular (served by Nginx)
+- **Backend**: Node.js + Express (port 8080)
+- **Database**: MongoDB
+- **Web Server**: Nginx (reverse proxy)
+- **Containerization**: Docker & Docker Compose
+- **CI/CD**: GitHub Actions
+- **Registry**: Docker Hub
 
-npm install
+---
 
-You can update the MongoDB credentials by modifying the `db.config.js` file located in `app/config/`.
+## Project Structure
 
-Run `node server.js`
+```
+project/
+├── .github/
+│   └── workflows/
+│       └── cicd.yml               # GitHub Actions CI/CD pipeline
+├── frontend/                      # Angular app
+│   ├── Dockerfile
+│   └── src/
+├── backend/                       # Node.js + Express API
+│   ├── Dockerfile
+│   ├── server.js
+│   └── config/
+│       └── db.config.js
+├── nginx/
+│   └── nginx.conf
+├── docker-compose.yml
+└── README.md
+```
 
-### Angular Client
+ 
 
-cd frontend
+## CI/CD Pipeline (GitHub Actions)
 
-npm install
+The pipeline has **4 jobs** that run automatically on every push to `master`:
 
-Run `ng serve --port 8081`
+```
+Push to master
+     │
+     ▼
+┌─────────────┐   ┌──────────────┐
+│Test Backend │   │Test Frontend │
+└──────┬──────┘   └──────┬───────┘
+       └────────┬─────────┘
+                ▼
+     ┌──────────────────────┐
+     │ Build & Push Docker  │
+     │ Images to Docker Hub │
+     └──────────┬───────────┘
+                ▼
+         ┌────────────┐
+         │   Deploy   │
+         │ to Server  │
+         └────────────┘
+```
 
-You can modify the `src/app/services/tutorial.service.ts` file to adjust how the frontend interacts with the backend.
+### Job Breakdown
 
-Navigate to `http://localhost:8081/`
+| Job | What it does |
+|---|---|
+| `test-backend` | Installs dependencies and runs Node.js tests |
+| `test-frontend` | Installs dependencies and builds Angular app |
+| `build-and-push` | Builds Docker images and pushes to Docker Hub |
+| `deploy` | SSHs into server, pulls latest images, restarts containers |
+
+---
+
+## Setup & Deployment Instructions
+
+### Prerequisites
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed
+- [Git](https://git-scm.com/) installed
+- A [Docker Hub](https://hub.docker.com/) account
+- A [GitHub](https://github.com/) account
+
+---
+
+### Step 1: Clone the repository
+
+```bash
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+```
+
+---
+
+### Step 2: Set up GitHub Secrets
+
+Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+
+Add the following secrets:
+
+| Secret Name | Description |
+|---|---|
+| `DOCKER_USERNAME` | Your Docker Hub username |
+| `DOCKER_PASSWORD` | Your Docker Hub password or access token |
+| `SERVER_HOST` | Your deployment server IP address |
+| `SERVER_USER` | Your server SSH username (e.g., `ubuntu`) |
+| `SERVER_SSH_KEY` | Your private SSH key for server access |
+
+
+---
+
+### Step 3: Run locally with Docker Compose
+
+```bash
+docker-compose up --build
+```
+
+---
+
+### Step 4: Push to GitHub to trigger CI/CD
+
+```bash
+git add .
+git commit -m "initial commit"
+git push origin main
+```
+
+The pipeline will automatically:
+1. Test your backend and frontend
+2. Build Docker images
+3. Push images to Docker Hub
+4. Deploy to your server
+
+---
+
+### Step 5: Access the application
+
+| Service | URL |
+|---|---|
+| Frontend (Angular) | http://localhost:80/tutorials |
+| Backend API | http://localhost:80/api |
+| MongoDB | mongodb://localhost:27017 |
+
+---
+
+## How It Works
+
+```
+User → http://localhost (port 80)
+            │
+          Nginx
+            ├── /          → Serves Angular app (static files)
+            └── /api/      → Proxies to Node.js backend (port 8080)
+                                        │
+                                    MongoDB (port 27017)
+```
+
+---
+
+
+## Screenshots
+
+### Docker Image Build and Push
+![Docker Build](screenshots/docker-build.png)
+
+### Application Deployment and Working UI
+![Application UI](screenshots/app-ui.png)
