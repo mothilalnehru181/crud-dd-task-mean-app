@@ -1,0 +1,59 @@
+services:
+
+  frontend:
+    build: ./frontend
+    container_name: angular-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+        app-network:
+            ipv4_address: 172.8.0.5
+
+
+  backend:
+    build: ./backend
+    container_name: node-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    networks:
+          app-network:
+            ipv4_address: 172.8.0.6
+    deploy:
+          resources:
+            limits:
+                cpus: '0.5'
+                memory: 512M
+    
+  mongodb:
+        image: mongodb/mongodb-community-server:latest
+        container_name: mongodb
+        restart: unless-stopped
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongodb:/data/db
+        networks:
+          app-network:
+            ipv4_address: 172.8.0.7
+        deploy:
+          resources:
+            limits:
+                cpus: '0.5'
+                memory: 512M
+        
+volumes:
+  mongodb:
+    driver: local
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.8.0.0/16
+          gateway: 172.8.0.1
