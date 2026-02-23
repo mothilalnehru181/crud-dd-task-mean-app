@@ -124,7 +124,7 @@ docker-compose up --build
 ```bash
 git add .
 git commit -m "initial commit"
-git push origin main
+git push origin master
 ```
 
 The pipeline will automatically:
