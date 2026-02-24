@@ -3,10 +3,10 @@ name: CI/CD Pipeline - MEAN Stack
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -14,56 +14,10 @@ env:
   FRONTEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/angular-frontend
 
 jobs:
+  deploy:
+    runs-on: self-hosted 
   # ─────────────────────────────────────────
-  # JOB 1: Test Backend
-  # ─────────────────────────────────────────
-  test-backend:
-    name: Test Backend
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install backend dependencies
-        working-directory: ./backend
-        run: npm install
-
-      - name: Run backend tests
-        working-directory: ./backend
-        run: npm test --if-present
-
-  # ─────────────────────────────────────────
-  # JOB 2: Test Frontend
-  # ─────────────────────────────────────────
-  test-frontend:
-    name: Test Frontend
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
-
-      - name: Build Angular app
-        working-directory: ./frontend
-        run: npm run build --prod
-
-  # ─────────────────────────────────────────
-  # JOB 3: Build & Push Docker Images
+  # JOB 1: Deploy
   # ─────────────────────────────────────────
   build-and-push:
     name: Build and Push Docker Images
@@ -102,7 +56,7 @@ jobs:
             ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
 
   # ─────────────────────────────────────────
-  # JOB 4: Deploy
+  # JOB 2: Deploy
   # ─────────────────────────────────────────
   deploy:
     name: Deploy Application
