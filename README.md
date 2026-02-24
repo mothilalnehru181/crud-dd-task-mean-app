@@ -6,8 +6,8 @@ A full-stack CRUD application built with **MongoDB, Express, Angular, and Node.j
 
 ## Tech Stack
 
-- **Frontend**: Angular (served by Nginx)
-- **Backend**: Node.js + Express (port 8080)
+- **Frontend**: Angular (served by Nginx) (port 80)
+- **Backend**: Node.js + Express (port 3000)
 - **Database**: MongoDB
 - **Web Server**: Nginx (reverse proxy)
 - **Containerization**: Docker & Docker Compose
@@ -41,16 +41,11 @@ project/
 
 ## CI/CD Pipeline (GitHub Actions)
 
-The pipeline has **4 jobs** that run automatically on every push to `master`:
+The pipeline has **2 jobs** that run automatically on every push to `master`:
 
 ```
-Push to master
-     │
-     ▼
-┌─────────────┐   ┌──────────────┐
-│Test Backend │   │Test Frontend │
-└──────┬──────┘   └──────┬───────┘
-       └────────┬─────────┘
+          Push to master
+                │
                 ▼
      ┌──────────────────────┐
      │ Build & Push Docker  │
@@ -67,8 +62,6 @@ Push to master
 
 | Job | What it does |
 |---|---|
-| `test-backend` | Installs dependencies and runs Node.js tests |
-| `test-frontend` | Installs dependencies and builds Angular app |
 | `build-and-push` | Builds Docker images and pushes to Docker Hub |
 | `deploy` | SSHs into server, pulls latest images, restarts containers |
 
@@ -149,7 +142,7 @@ User → http://localhost (port 80)
             │
           Nginx
             ├── /          → Serves Angular app (static files)
-            └── /api/      → Proxies to Node.js backend (port 8080)
+            └── /api/      → Proxies to Node.js backend (port 3000)
                                         │
                                     MongoDB (port 27017)
 ```
@@ -164,5 +157,5 @@ User → http://localhost (port 80)
 
 ### Application Deployment and Working UI
 ![Application UI](screenshots/app-ui.png)
-### Application Deployment and Working UI
+### Deployment Success
 ![Application UI](screenshots/ci-deploy.png)
