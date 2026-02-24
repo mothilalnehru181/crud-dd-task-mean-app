@@ -14,6 +14,13 @@ env:
   FRONTEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/angular-frontend
 
 jobs:
+  who-ran-this:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show triggering user
+        run: |
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Triggering actor: ${{ github.triggering_actor }}"
   # ─────────────────────────────────────────
   # JOB 1: Build and Push Docker Images
   # ─────────────────────────────────────────
