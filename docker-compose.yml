@@ -1,7 +1,7 @@
 services:
 
   frontend:
-    image: ${DOCKER_USERNAME}/angular-frontend:latest
+    image: mothilalnehru181/angular-frontend:latest
     container_name: angular-frontend
     ports:
       - "80:80"
@@ -15,7 +15,7 @@ services:
 
 
   backend:
-    image: ${DOCKER_USERNAME}/node-backend:latest
+    image: mothilalnehru181/node-backend:latest
     container_name: node-backend
     expose:
       - "3000"
