@@ -88,8 +88,8 @@ Push to master
 ### Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repo.git
-cd your-repo
+https://github.com/mothilalnehru181/crud-dd-task-mean-app
+cd crud-dd-task-mean-app
 ```
 
 ---
@@ -128,10 +128,9 @@ git push origin master
 ```
 
 The pipeline will automatically:
-1. Test your backend and frontend
-2. Build Docker images
-3. Push images to Docker Hub
-4. Deploy to your server
+1. Build Docker images
+2. Push images to Docker Hub
+3. Deploy to your server
 
 ---
 
@@ -139,9 +138,7 @@ The pipeline will automatically:
 
 | Service | URL |
 |---|---|
-| Frontend (Angular) | http://localhost:80/tutorials |
-| Backend API | http://localhost:80/api |
-| MongoDB | mongodb://localhost:27017 |
+| crud-app | http://34.93.3.179/tutorials |
 
 ---
 
@@ -167,3 +164,5 @@ User → http://localhost (port 80)
 
 ### Application Deployment and Working UI
 ![Application UI](screenshots/app-ui.png)
+### Application Deployment and Working UI
+![Application UI](screenshots/ci-deploy.png)
