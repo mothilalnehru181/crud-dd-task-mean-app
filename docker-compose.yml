@@ -17,8 +17,8 @@ services:
   backend:
     image: ${DOCKER_USERNAME}/node-backend:latest
     container_name: node-backend
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
     networks:
@@ -34,8 +34,8 @@ services:
         image: mongodb/mongodb-community-server:latest
         container_name: mongodb
         restart: unless-stopped
-        ports:
-            - "27017:27017"
+        expose:
+          - "27017"
         volumes:
             - mongodb:/data/db
         networks:
