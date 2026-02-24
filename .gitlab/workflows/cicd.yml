@@ -14,6 +14,8 @@ env:
   FRONTEND_IMAGE: ${{ secrets.DOCKER_USERNAME }}/angular-frontend
 
 jobs:
+  deploy:
+    runs-on: self-hosted 
   # ─────────────────────────────────────────
   # JOB 1: Deploy
   # ─────────────────────────────────────────
