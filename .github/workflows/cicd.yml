@@ -15,18 +15,21 @@ env:
 
 jobs:
   who-ran-this:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Show triggering user
+        env:
+          ACTOR: ${{ github.actor }}
+          TRIGGERING_ACTOR: ${{ github.triggering_actor }}
         run: |
-          echo "Triggered by: ${{ github.actor }}"
-          echo "Triggering actor: ${{ github.triggering_actor }}"
+          echo "Triggered by: $ACTOR"
+          echo "Triggering actor: $TRIGGERING_ACTOR"
   # ─────────────────────────────────────────
   # JOB 1: Build and Push Docker Images
   # ─────────────────────────────────────────
   build-and-push:
     name: Build and Push Docker Images
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
