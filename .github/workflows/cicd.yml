@@ -69,5 +69,3 @@ jobs:
           docker pull ${{ env.FRONTEND_IMAGE }}:latest
           docker compose up -d
           docker system prune -f
-
-VPS pulls latest images & restarts
