@@ -11,7 +11,7 @@ services:
       - backend
     networks:
         app-network:
-            ipv4_address: 172.8.0.5
+            ipv4_address: 172.9.0.5
 
 
   backend:
@@ -23,7 +23,7 @@ services:
       - NODE_ENV=production
     networks:
           app-network:
-            ipv4_address: 172.8.0.6
+            ipv4_address: 172.9.0.6
     deploy:
           resources:
             limits:
@@ -37,10 +37,10 @@ services:
         expose:
           - "27017"
         volumes:
-            - mongodb:/data/db
+            - mongodb_crud:/data/db
         networks:
           app-network:
-            ipv4_address: 172.8.0.7
+            ipv4_address: 172.9.0.7
         deploy:
           resources:
             limits:
@@ -48,12 +48,12 @@ services:
                 memory: 512M
         
 volumes:
-  mongodb:
+  mongodb_crud:
     driver: local
 networks:
   app-network:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.8.0.0/16
-          gateway: 172.8.0.1
+        - subnet: 172.9.0.0/16
+          gateway: 172.9.0.1
