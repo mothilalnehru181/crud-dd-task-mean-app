@@ -131,14 +131,14 @@ The pipeline will automatically:
 
 | Service | URL |
 |---|---|
-| crud-app | http://34.93.3.179/tutorials |
+| crud-app | http://{ip_where_the_application_is_hosted}/tutorials |
 
 ---
 
 ## How It Works
 
 ```
-User → http://localhost (port 80)
+User → http://{ip_where_the_application_ishosted} (port 80)
             │
           Nginx
             ├── /          → Serves Angular app (static files)
