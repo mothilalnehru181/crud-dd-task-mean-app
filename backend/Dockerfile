@@ -4,5 +4,4 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN rm -rf .gitignore
-EXPOSE 3000
 CMD ["node", "server.js"]

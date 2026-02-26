@@ -17,8 +17,6 @@ services:
   backend:
     image: mothilalnehru181/node-backend:latest
     container_name: node-backend
-    expose:
-      - "3000"
     environment:
       - NODE_ENV=production
     networks:

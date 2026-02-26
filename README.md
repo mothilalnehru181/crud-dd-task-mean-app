@@ -7,7 +7,7 @@ A full-stack CRUD application built with **MongoDB, Express, Angular, and Node.j
 ## Tech Stack
 
 - **Frontend**: Angular (served by Nginx) (port 80)
-- **Backend**: Node.js + Express (port 3000)
+- **Backend**: Node.js + Express (port 8080 unexposed to internet)
 - **Database**: MongoDB
 - **Web Server**: Nginx (reverse proxy)
 - **Containerization**: Docker & Docker Compose
